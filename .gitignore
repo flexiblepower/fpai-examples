@@ -1,0 +1,7 @@
+# Generate Java / Eclipse generated stuff
+.metadata
+*.swp
+cnf/cache
+cnf/release
+bin
+generated

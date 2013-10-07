@@ -4,11 +4,14 @@ import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 
+import javax.measure.Measurable;
+import javax.measure.Measure;
+import javax.measure.quantity.Power;
+import javax.measure.unit.SI;
+
 import org.flexiblepower.example.uncontrolled.driver.UncontrolledDriverExample.Config;
 import org.flexiblepower.observation.Observation;
 import org.flexiblepower.observation.ObservationProviderRegistrationHelper;
-import org.flexiblepower.rai.unit.PowerUnit;
-import org.flexiblepower.rai.values.PowerValue;
 import org.flexiblepower.ral.ResourceDriver;
 import org.flexiblepower.ral.drivers.uncontrolled.UncontrolledControlParameters;
 import org.flexiblepower.ral.drivers.uncontrolled.UncontrolledDriver;
@@ -33,7 +36,7 @@ public class UncontrolledDriverExample extends AbstractResourceDriver<Uncontroll
 	@Meta.OCD
 	interface Config {
 		@Meta.AD(deflt = "uncontrolled")
-		String applianceId();
+		String resourceId();
 
 	}
 
@@ -50,10 +53,9 @@ public class UncontrolledDriverExample extends AbstractResourceDriver<Uncontroll
 		config = Configurable.createConfigurable(Config.class, properties);
 
 		// Register us as an ObservationProvider
-		String applianceId = config.applianceId();
-		observationProviderRegistration = new ObservationProviderRegistrationHelper(bundleContext)
-				.observationType(UncontrolledState.class).observationOf(applianceId).observedBy(applianceId)
-				.serviceObject(this).register();
+		String applianceId = config.resourceId();
+		observationProviderRegistration = new ObservationProviderRegistrationHelper(this)
+				.observationType(UncontrolledState.class).observationOf(applianceId).observedBy(applianceId).register();
 
 		// Schedule this object; this will make sure the run method gets called
 		// every 5 seconds
@@ -105,9 +107,9 @@ public class UncontrolledDriverExample extends AbstractResourceDriver<Uncontroll
 			}
 
 			@Override
-			public PowerValue getDemand() {
-				return new PowerValue(UncontrolledDriverExample.this.deviceConnection.getCurrentDemandInWatt(),
-						PowerUnit.WATT);
+			public Measurable<Power> getDemand() {
+				double currentDemandInWatt = UncontrolledDriverExample.this.deviceConnection.getCurrentDemandInWatt();
+				return Measure.valueOf(currentDemandInWatt, SI.WATT);
 			}
 		};
 	}

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>org.flexiblepower.timeshifter.washingmachine.api</name>
+	<name>org.flexiblepower.timeshifter.washingmachine.driver.api</name>
 	<comment></comment>
 	<projects>
 	</projects>

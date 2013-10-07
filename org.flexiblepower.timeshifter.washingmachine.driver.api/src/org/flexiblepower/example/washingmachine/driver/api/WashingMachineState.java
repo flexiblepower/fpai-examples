@@ -1,4 +1,4 @@
-package org.flexiblepower.example.washingmachine.api;
+package org.flexiblepower.example.washingmachine.driver.api;
 
 import java.util.Date;
 

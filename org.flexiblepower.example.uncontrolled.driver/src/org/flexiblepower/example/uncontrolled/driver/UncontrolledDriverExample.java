@@ -38,7 +38,7 @@ public class UncontrolledDriverExample extends AbstractResourceDriver<Uncontroll
 
 	@Meta.OCD
 	interface Config {
-		@Meta.AD(deflt = "uncontrolled")
+		@Meta.AD(deflt = "uncontrolled", description = "Resource identifier")
 		String resourceId();
 
 	}
@@ -71,9 +71,9 @@ public class UncontrolledDriverExample extends AbstractResourceDriver<Uncontroll
 		config = Configurable.createConfigurable(Config.class, properties);
 
 		// Register us as an ObservationProvider
-		String applianceId = config.resourceId();
+		String resourceId = config.resourceId();
 		observationProviderRegistration = new ObservationProviderRegistrationHelper(this)
-				.observationType(UncontrolledState.class).observationOf(applianceId).observedBy(applianceId).register();
+				.observationType(UncontrolledState.class).observationOf(resourceId).observedBy(resourceId).register();
 
 		// Schedule this object; this will make sure the run method gets called
 		// every 5 seconds

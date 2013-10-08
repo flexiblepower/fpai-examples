@@ -126,7 +126,7 @@ public class UncontrolledDriverExample extends AbstractResourceDriver<Uncontroll
 	public void run() {
 		try {
 			UncontrolledState currentState = getState();
-			logger.info("The uncontrolled device has updated its demand to" + currentState.getDemand());
+			logger.info("The uncontrolled device has updated its demand to " + currentState.getDemand());
 			publish(new Observation<UncontrolledState>(timeService.getTime(), currentState));
 		} catch (Exception e) {
 			// When you don't catch your exception here, your Runnable won't be

@@ -2,7 +2,7 @@
 <project name="fpai-example" default="build">
 	<property name="version" value="development" />
 
-	<property name="releasedir" value="/var/www/html/releases/fpai-example" />
+	<property name="releasedir" value="/var/www/html/releases/fpai-examples" />
 
 	<fileset id="build" dir="..">
 		<include name="*/build.xml" />

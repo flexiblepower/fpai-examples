@@ -1,0 +1,7 @@
+-include: ../cnf/base.bnd
+-buildpath: ${default-buildpath}
+	
+
+Bundle-Version: 1.0.0
+Export-Package: org.flexiblepower.example.washingmachine.driver.impl
+Service-Component: *

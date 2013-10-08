@@ -6,7 +6,6 @@ import javax.measure.Measure;
 import javax.measure.quantity.Energy;
 import javax.measure.unit.SI;
 
-import org.flexiblepower.example.uncontrolled.manager.UncontrolledManagerExample.Config;
 import org.flexiblepower.observation.Observation;
 import org.flexiblepower.observation.ObservationProvider;
 import org.flexiblepower.rai.Allocation;
@@ -23,16 +22,17 @@ import org.osgi.framework.BundleContext;
 
 import aQute.bnd.annotation.component.Activate;
 import aQute.bnd.annotation.component.Component;
+import aQute.bnd.annotation.component.Deactivate;
 import aQute.bnd.annotation.component.Reference;
 import aQute.bnd.annotation.metatype.Configurable;
 import aQute.bnd.annotation.metatype.Meta;
 
-@Component(designateFactory = Config.class, provide = { ResourceManager.class })
+@Component(designateFactory = org.flexiblepower.example.uncontrolled.manager.UncontrolledManagerExample.Config.class, immediate = true, provide = ResourceManager.class)
 public class UncontrolledManagerExample extends
 		AbstractResourceManager<UncontrolledLGControlSpace, UncontrolledState, UncontrolledControlParameters> {
 
 	interface Config {
-		@Meta.AD(deflt = "uncontolled", description = "Resource identifier")
+		@Meta.AD(deflt = "uncontrolled", description = "Resource identifier")
 		String resourceId();
 
 		@Meta.AD(deflt = "true", description = "Show the widget")
@@ -44,7 +44,7 @@ public class UncontrolledManagerExample extends
 	/** Configuration of this object */
 	private Config config;
 
-	protected UncontrolledManagerExample() {
+	public UncontrolledManagerExample() {
 		super(UncontrolledDriver.class, UncontrolledLGControlSpace.class);
 	}
 
@@ -52,7 +52,11 @@ public class UncontrolledManagerExample extends
 	public void activate(BundleContext bundleContext, Map<String, Object> properties) {
 		// Get the configuration
 		config = Configurable.createConfigurable(Config.class, properties);
-		System.err.println("ACTIVATE");
+	}
+
+	@Deactivate
+	public void deactivate() {
+
 	}
 
 	/**
@@ -83,7 +87,7 @@ public class UncontrolledManagerExample extends
 				SI.JOULE);
 		// Create an EnergyProfyle for the next 10 seconds
 		EnergyProfile energyProfile = new EnergyProfile.Builder().add(Measure.valueOf(10, SI.SECOND), energy).build();
-		// Construct the controlspace object
+		// Construct the ControlSpace object
 		return new UncontrolledLGControlSpace(this.config.resourceId(), timeService.getTime(), TimeUtil.add(
 				timeService.getTime(), Measure.valueOf(10, SI.SECOND)), TimeUtil.add(timeService.getTime(),
 				Measure.valueOf(10, SI.SECOND)), timeService.getTime(), energyProfile);

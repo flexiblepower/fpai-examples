@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="fpai" default="build">
+	<property name="version" value="development" />
+
+	<property name="releasedir" value="/var/www/html/releases/fpai-example" />
+
+	<fileset id="build" dir="..">
+		<include name="*/build.xml" />
+		<exclude name="cnf/*" />
+	</fileset>
+
+	<fileset id="release" dir="..">
+		<include name="*/build.xml" />
+		<exclude name="cnf/*" />
+		<exclude name="*.test/*" />
+	</fileset>
+
+	<target name="echo">
+		<subant target="echo">
+			<fileset refId="build" />
+		</subant>
+	</target>
+	
+	<target name="build">
+		<subant target="build">
+			<fileset refId="build" />
+		</subant>
+	</target>
+
+	<target name="release">
+		<subant target="release">
+			<fileset refId="release" />
+		</subant>
+	</target>
+
+	<target name="coverage-report">
+		<subant target="coverage-report">
+			<fileset refId="build" />
+		</subant>
+	</target>
+
+	<target name="test" depends="build">
+		<subant target="test">
+			<fileset dir="..">
+				<include name="*.test/build.xml" />
+			</fileset>
+		</subant>
+	</target>
+
+	<target name="clean">
+		<delete dir="release" />
+		<mkdir dir="release" />
+		<subant target="clean">
+			<fileset refId="build" />
+		</subant>
+	</target>
+	
+	<target name="checkstyle">
+		<subant target="checkstyle">
+			<fileset refId="build" />
+		</subant>
+	</target>
+
+	<target name="publishrelease" depends="release">
+		<delete dir="${releasedir}/${version}/repo" />
+		<mkdir dir="${releasedir}/${version}/repo" />
+		<copy todir="${releasedir}/${version}/repo">
+			<fileset dir="release" />
+		</copy>
+	</target>
+</project>

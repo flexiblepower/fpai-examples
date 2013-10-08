@@ -30,7 +30,7 @@
 		<dirname property="workspacedir" file="${projectdir}" />
 
 		<!-- Define the location of bnd -->
-		<path id="bnd-classpath" location="${workspacedir}/../Repository/biz.aQute.bnd/biz.aQute.bnd-2.0.0.jar" />
+		<path id="bnd-classpath" location="${workspacedir}/cnf/bnd/biz.aQute.bnd-2.1.0.jar" />
 
 		<!-- Load bnd and prepare the workspace -->
 		<taskdef resource="aQute/bnd/ant/taskdef.properties" classpathref="bnd-classpath" />
@@ -68,7 +68,7 @@
 	-->
 	<target name="compile" depends="dependencies" if="project.sourcepath">
 		<mkdir dir="${project.output}"/>
-		<javac fork="yes" executable="${javac}" srcdir="${project.sourcepath}" destdir="${project.output}" classpath="${project.buildpath}" bootclasspath="${project.bootclasspath}" deprecation="true" listfiles="true" target="${javac.target}" source="${javac.source}" debug="${javac.debug}" includeAntRuntime="no" verbose="${verbose}" />
+		<javac encoding="UTF-8" fork="yes" executable="${javac}" srcdir="${project.sourcepath}" destdir="${project.output}" classpath="${project.buildpath}" bootclasspath="${project.bootclasspath}" deprecation="true" listfiles="true" target="${javac.target}" source="${javac.source}" debug="${javac.debug}" includeAntRuntime="no" verbose="${verbose}" />
 		<copy todir="${project.output}" verbose="${verbose}" preservelastmodified="true">
 			<fileset dir="${project.sourcepath}">
 				<exclude name="**/*.java" />

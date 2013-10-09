@@ -141,6 +141,9 @@ public class UncontrolledDriverExample extends AbstractResourceDriver<Uncontroll
 	 * @return
 	 */
 	private UncontrolledState getState() {
+		double currentDemandInWatt = UncontrolledDriverExample.this.deviceConnection.getCurrentDemandInWatt();
+		final Measurable<Power> demand = Measure.valueOf(currentDemandInWatt, SI.WATT);
+		final Date now = timeService.getTime();
 		return new UncontrolledState() {
 
 			@Override
@@ -150,13 +153,12 @@ public class UncontrolledDriverExample extends AbstractResourceDriver<Uncontroll
 
 			@Override
 			public Date getTime() {
-				return UncontrolledDriverExample.this.timeService.getTime();
+				return now;
 			}
 
 			@Override
 			public Measurable<Power> getDemand() {
-				double currentDemandInWatt = UncontrolledDriverExample.this.deviceConnection.getCurrentDemandInWatt();
-				return Measure.valueOf(currentDemandInWatt, SI.WATT);
+				return demand;
 			}
 		};
 	}

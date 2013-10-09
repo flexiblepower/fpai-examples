@@ -31,6 +31,7 @@ import aQute.bnd.annotation.metatype.Meta;
 public class UncontrolledManagerExample extends
 		AbstractResourceManager<UncontrolledLGControlSpace, UncontrolledState, UncontrolledControlParameters> {
 
+	@Meta.OCD
 	interface Config {
 		@Meta.AD(deflt = "uncontrolled", description = "Resource identifier")
 		String resourceId();

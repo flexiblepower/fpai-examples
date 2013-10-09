@@ -3,5 +3,5 @@
 	
 
 Bundle-Version: 1.0.0
-Export-Package: org.flexiblepower.example.washingmachine.driver.api
+Export-Package: org.flexiblepower.example.timeshifter.washingmachine.driver.api
 Service-Component: *

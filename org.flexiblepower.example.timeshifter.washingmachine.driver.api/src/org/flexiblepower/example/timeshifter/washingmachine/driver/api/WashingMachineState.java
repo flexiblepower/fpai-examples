@@ -7,7 +7,9 @@ import org.flexiblepower.ral.ResourceState;
 
 public interface WashingMachineState extends ResourceState {
 	
-	Date getStartTime();
+	Date getEarliestStartTime();
+	
+	Date getLatestStartTime();
 	
 	String getProgram();
 	

@@ -12,7 +12,6 @@
 	osgi.identity;filter:='(osgi.identity=flexiblepower.api.ext)',\
 	osgi.identity;filter:='(osgi.identity=flexiblepower.runtime)',\
 	osgi.identity;filter:='(osgi.identity=flexiblepower.ui)',\
-	osgi.identity;filter:='(osgi.identity=flexiblepower.ui.appinfo)',\
 	osgi.identity;filter:='(osgi.identity=flexiblepower.ui.resourceinfo)',\
 	osgi.identity;filter:='(osgi.identity=flexiblepower.ui.runtime)',\
 	osgi.identity;filter:='(osgi.identity=org.flexiblepower.example.uncontrolled.driver)',\
@@ -26,15 +25,12 @@
 	flexiblepower.api;version='[1.0.0,1.0.1)',\
 	flexiblepower.api.ext;version='[1.0.0,1.0.1)',\
 	flexiblepower.runtime;version='[1.0.0,1.0.1)',\
-	flexiblepower.runtime.simulation;version='[1.0.0,1.0.1)',\
 	flexiblepower.ui;version='[1.0.0,1.0.1)',\
-	flexiblepower.ui.appinfo;version='[1.0.0,1.0.1)',\
 	flexiblepower.ui.resourceinfo;version='[1.0.0,1.0.1)',\
 	flexiblepower.ui.runtime;version='[1.0.0,1.0.1)',\
 	org.apache.commons.fileupload;version='[1.2.2,1.2.3)',\
 	org.apache.commons.io;version='[2.4.0,2.4.1)',\
 	org.apache.felix.configadmin;version='[1.6.0,1.6.1)',\
-	org.apache.felix.framework.security;version='[2.2.0,2.2.1)',\
 	org.apache.felix.http.jetty;version='[2.2.0,2.2.1)',\
 	org.apache.felix.http.whiteboard;version='[2.2.0,2.2.1)',\
 	org.apache.felix.metatype;version='[1.0.6,1.0.7)',\

@@ -9,7 +9,7 @@ import javax.measure.unit.SI;
 import org.flexiblepower.observation.Observation;
 import org.flexiblepower.observation.ObservationProvider;
 import org.flexiblepower.rai.Allocation;
-import org.flexiblepower.rai.UncontrolledLGControlSpace;
+import org.flexiblepower.rai.UncontrolledControlSpace;
 import org.flexiblepower.rai.values.EnergyProfile;
 import org.flexiblepower.ral.ResourceManager;
 import org.flexiblepower.ral.drivers.uncontrolled.UncontrolledControlParameters;
@@ -17,7 +17,6 @@ import org.flexiblepower.ral.drivers.uncontrolled.UncontrolledDriver;
 import org.flexiblepower.ral.drivers.uncontrolled.UncontrolledState;
 import org.flexiblepower.ral.ext.AbstractResourceManager;
 import org.flexiblepower.time.TimeService;
-import org.flexiblepower.time.TimeUtil;
 import org.osgi.framework.BundleContext;
 
 import aQute.bnd.annotation.component.Activate;
@@ -29,7 +28,7 @@ import aQute.bnd.annotation.metatype.Meta;
 
 @Component(designateFactory = org.flexiblepower.example.uncontrolled.manager.UncontrolledManagerExample.Config.class, immediate = true, provide = ResourceManager.class)
 public class UncontrolledManagerExample extends
-		AbstractResourceManager<UncontrolledLGControlSpace, UncontrolledState, UncontrolledControlParameters> {
+		AbstractResourceManager<UncontrolledControlSpace, UncontrolledState, UncontrolledControlParameters> {
 
 	@Meta.OCD
 	interface Config {
@@ -46,7 +45,7 @@ public class UncontrolledManagerExample extends
 	private Config config;
 
 	public UncontrolledManagerExample() {
-		super(UncontrolledDriver.class, UncontrolledLGControlSpace.class);
+		super(UncontrolledDriver.class, UncontrolledControlSpace.class);
 	}
 
 	@Activate
@@ -81,22 +80,19 @@ public class UncontrolledManagerExample extends
 		publish(constructControlSpace(uncontrolledState));
 	}
 
-	private UncontrolledLGControlSpace constructControlSpace(UncontrolledState uncontrolledState) {
+	private UncontrolledControlSpace constructControlSpace(UncontrolledState uncontrolledState) {
 		// Calculate the amount of energy for 10 seconds (1 watt = 1 joule /
 		// second)
 		Measure<Double, Energy> energy = Measure.valueOf(uncontrolledState.getDemand().doubleValue(SI.WATT) * 10,
 				SI.JOULE);
 		// Create an EnergyProfyle for the next 10 seconds
-		EnergyProfile energyProfile = new EnergyProfile.Builder().add(Measure.valueOf(10, SI.SECOND), energy).build();
+		EnergyProfile energyProfile = EnergyProfile.create().add(Measure.valueOf(10, SI.SECOND), energy).build();
 		// Construct the ControlSpace object
-		return new UncontrolledLGControlSpace(this.config.resourceId(), timeService.getTime(), TimeUtil.add(
-				timeService.getTime(), Measure.valueOf(10, SI.SECOND)), TimeUtil.add(timeService.getTime(),
-				Measure.valueOf(10, SI.SECOND)), timeService.getTime(), energyProfile);
+		return new UncontrolledControlSpace(this.config.resourceId(), timeService.getTime(), energyProfile);
 	}
 
 	@Override
 	public void handleAllocation(Allocation allocation) {
 		// Uncontrolled devices can't handle allocations, nothing to do here
 	}
-
 }

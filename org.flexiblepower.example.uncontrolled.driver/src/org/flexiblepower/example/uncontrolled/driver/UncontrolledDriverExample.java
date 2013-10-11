@@ -12,7 +12,7 @@ import javax.measure.unit.SI;
 
 import org.flexiblepower.example.uncontrolled.driver.UncontrolledDriverExample.Config;
 import org.flexiblepower.observation.Observation;
-import org.flexiblepower.observation.ObservationProviderRegistrationHelper;
+import org.flexiblepower.observation.ext.ObservationProviderRegistrationHelper;
 import org.flexiblepower.ral.ResourceDriver;
 import org.flexiblepower.ral.drivers.uncontrolled.UncontrolledControlParameters;
 import org.flexiblepower.ral.drivers.uncontrolled.UncontrolledDriver;
@@ -73,7 +73,7 @@ public class UncontrolledDriverExample extends AbstractResourceDriver<Uncontroll
 		// Register us as an ObservationProvider
 		String resourceId = config.resourceId();
 		observationProviderRegistration = new ObservationProviderRegistrationHelper(this)
-				.observationType(UncontrolledState.class).observationOf(resourceId).observedBy(resourceId).register();
+				.observationType(UncontrolledState.class).observationOf(resourceId).register();
 
 		// Schedule this object; this will make sure the run method gets called
 		// every 5 seconds

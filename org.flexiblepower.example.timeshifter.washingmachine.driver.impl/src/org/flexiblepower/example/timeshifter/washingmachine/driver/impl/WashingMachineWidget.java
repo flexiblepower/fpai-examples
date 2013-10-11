@@ -42,7 +42,7 @@ public class WashingMachineWidget implements Widget {
 	public Update update() {
 		WashingMachineState state = washingMachineDriverImpl.getCurrentState();
 		
-		return new Update(FORMATTER.format(state.getEarliestStartTime()), FORMATTER.format(state.getLatestStartTime()), state.getProgram());
+		return new Update(FORMATTER.format(state.getEarliestStartTime()), FORMATTER.format(state.getLatestStartTime()), state.getProgramName());
 	}
 
 	@Override

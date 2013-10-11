@@ -16,7 +16,8 @@
 	osgi.identity;filter:='(osgi.identity=flexiblepower.ui.runtime)',\
 	osgi.identity;filter:='(osgi.identity=org.flexiblepower.example.uncontrolled.driver)',\
 	osgi.identity;filter:='(osgi.identity=org.flexiblepower.example.timeshifter.washingmachine.driver.impl)',\
-	osgi.identity;filter:='(osgi.identity=org.flexiblepower.example.timeshifter.washingmachine.manager)'
+	osgi.identity;filter:='(osgi.identity=org.flexiblepower.example.timeshifter.washingmachine.manager)',\
+	osgi.identity;filter:='(osgi.identity=org.flexiblepower.example.energyapp)'
 -runbundles: biz.aQute.bnd.annotation;version='[1.52.3,1.52.4)',\
 	ch.qos.logback.classic;version='[1.0.13,1.0.14)',\
 	ch.qos.logback.core;version='[1.0.13,1.0.14)',\
@@ -37,6 +38,7 @@
 	org.apache.felix.scr;version='[1.6.2,1.6.3)',\
 	org.apache.felix.webconsole;version='[4.2.0,4.2.1)',\
 	org.apache.felix.webconsole.plugins.ds;version='[1.0.0,1.0.1)',\
+	org.flexiblepower.example.energyapp;version=latest,\
 	org.flexiblepower.example.timeshifter.washingmachine.driver.api;version=latest,\
 	org.flexiblepower.example.timeshifter.washingmachine.driver.impl;version=latest,\
 	org.flexiblepower.example.timeshifter.washingmachine.manager;version=latest,\

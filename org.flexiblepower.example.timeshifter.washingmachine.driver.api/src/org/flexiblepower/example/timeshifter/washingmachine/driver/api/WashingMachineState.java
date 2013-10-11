@@ -11,7 +11,7 @@ public interface WashingMachineState extends ResourceState {
 	
 	Date getLatestStartTime();
 	
-	String getProgram();
+	String getProgramName();
 	
 	EnergyProfile getEnergyProfile();
 

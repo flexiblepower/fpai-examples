@@ -14,7 +14,6 @@ import org.flexiblepower.example.timeshifter.washingmachine.driver.api.WashingMa
 import org.flexiblepower.example.timeshifter.washingmachine.driver.api.WashingMachineState;
 import org.flexiblepower.example.timeshifter.washingmachine.driver.impl.WashingMachineDriverImpl.Config;
 import org.flexiblepower.observation.Observation;
-import org.flexiblepower.observation.ObservationConsumer;
 import org.flexiblepower.observation.ObservationProviderRegistrationHelper;
 import org.flexiblepower.rai.values.EnergyProfile;
 import org.flexiblepower.ral.ResourceDriver;
@@ -134,20 +133,6 @@ public class WashingMachineDriverImpl
 	}
 
 	@Override
-	public void subscribe(
-			ObservationConsumer<? super WashingMachineState> consumer) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void unsubscribe(
-			ObservationConsumer<? super WashingMachineState> consumer) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void run() {
 		try {
 			currentWashingMachineState = generateState();
@@ -189,7 +174,7 @@ public class WashingMachineDriverImpl
 				return true;
 			}
 			
-			public String getProgram() {
+			public String getProgramName() {
 				return programName;
 			}
 			

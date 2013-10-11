@@ -1,8 +1,6 @@
--include: ../cnf/base.bnd
 -buildpath: ${default-buildpath},\
 	org.flexiblepower.example.timeshifter.washingmachine.driver.api;version=latest
-	
 
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.0.${qualifier}
 Private-Package: org.flexiblepower.example.timeshifter.washingmachine.manager
 Service-Component: *

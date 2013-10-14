@@ -32,7 +32,7 @@ import aQute.bnd.annotation.metatype.Configurable;
 import aQute.bnd.annotation.metatype.Meta;
 
 /**
- * This is an example of a driver for a washing machine.
+ * This is an example of a driver implementation for a washing machine.
  */
 @Component(designateFactory = Config.class, provide = ResourceDriver.class)
 public class WashingMachineDriverImpl
@@ -40,7 +40,7 @@ public class WashingMachineDriverImpl
 		AbstractResourceDriver<WashingMachineState, WashingMachineControlParameters>
 		implements WashingMachineDriver, Runnable {
 
-	@Meta.OCD
+	@Meta.OCD(name = "Washing Machine Driver")
 	interface Config {
 		@Meta.AD(deflt = "washingmachine", description = "Resource identifier")
 		String resourceId();

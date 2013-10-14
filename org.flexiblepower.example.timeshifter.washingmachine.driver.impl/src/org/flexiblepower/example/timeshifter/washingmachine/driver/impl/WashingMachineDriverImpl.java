@@ -14,7 +14,7 @@ import org.flexiblepower.example.timeshifter.washingmachine.driver.api.WashingMa
 import org.flexiblepower.example.timeshifter.washingmachine.driver.api.WashingMachineState;
 import org.flexiblepower.example.timeshifter.washingmachine.driver.impl.WashingMachineDriverImpl.Config;
 import org.flexiblepower.observation.Observation;
-import org.flexiblepower.observation.ObservationProviderRegistrationHelper;
+import org.flexiblepower.observation.ext.ObservationProviderRegistrationHelper;
 import org.flexiblepower.rai.values.EnergyProfile;
 import org.flexiblepower.ral.ResourceDriver;
 import org.flexiblepower.ral.drivers.uncontrolled.UncontrolledState;
@@ -81,7 +81,7 @@ public class WashingMachineDriverImpl
 		String resourceId = config.resourceId();
 		observationProviderRegistration = new ObservationProviderRegistrationHelper(
 				this).observationType(UncontrolledState.class)
-				.observationOf(resourceId).observedBy(resourceId).register();
+				.observationOf(resourceId).register();
 		widget = new WashingMachineWidget(this);
 		widgetRegistration = bundleContext.registerService(Widget.class, widget, null);
 		
@@ -163,7 +163,7 @@ public class WashingMachineDriverImpl
 				+ (2 * 60 * 60 * 1000)); // latestStartTime is earliestStartTime
 											// + 2 hours
 
-		EnergyProfile.Builder b = new EnergyProfile.Builder();
+		EnergyProfile.Builder b = EnergyProfile.create();
 		b.add(Measure.valueOf(60, SI.SECOND), Measure.valueOf(0.015, NonSI.KWH));
 		b.add(Measure.valueOf(60, SI.SECOND), Measure.valueOf(0.012, NonSI.KWH));
 		final EnergyProfile energyProfile = b.build();

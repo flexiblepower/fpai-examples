@@ -6,6 +6,6 @@ import org.flexiblepower.ral.ResourceControlParameters;
 
 public interface WashingMachineControlParameters extends ResourceControlParameters{
 	
-	Date getProgramStartTime(Date startTime);
+	Date getProgramStartTime();
 
 }

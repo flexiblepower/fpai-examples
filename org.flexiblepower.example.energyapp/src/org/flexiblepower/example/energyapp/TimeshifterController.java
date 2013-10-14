@@ -1,5 +1,8 @@
 package org.flexiblepower.example.energyapp;
 
+import java.util.Date;
+
+import org.flexiblepower.rai.Allocation;
 import org.flexiblepower.rai.ControllableResource;
 import org.flexiblepower.rai.Controller;
 import org.flexiblepower.rai.TimeShifterControlSpace;
@@ -20,7 +23,11 @@ public class TimeshifterController implements Controller<TimeShifterControlSpace
 	public void controlSpaceUpdated(
 			ControllableResource<? extends TimeShifterControlSpace> resource,
 			TimeShifterControlSpace controlSpace) {
-		logger.info("Received control space with timestamp" + controlSpace.getValidFrom());		
+		logger.info("Received control space with timestamp" + controlSpace.getValidFrom());
+		
+		long timeInTheMiddle = (controlSpace.getValidFrom().getTime() + controlSpace.getValidThru().getTime())/2;
+		Allocation allocation = new Allocation(controlSpace, new Date(timeInTheMiddle), controlSpace.getEnergyProfile());
+		controllableResource.handleAllocation(allocation);
 	}
 	
 }

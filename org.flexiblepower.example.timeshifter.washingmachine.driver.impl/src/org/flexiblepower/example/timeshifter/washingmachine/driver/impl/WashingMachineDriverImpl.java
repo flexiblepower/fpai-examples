@@ -17,7 +17,6 @@ import org.flexiblepower.observation.Observation;
 import org.flexiblepower.observation.ext.ObservationProviderRegistrationHelper;
 import org.flexiblepower.rai.values.EnergyProfile;
 import org.flexiblepower.ral.ResourceDriver;
-import org.flexiblepower.ral.drivers.uncontrolled.UncontrolledState;
 import org.flexiblepower.ral.ext.AbstractResourceDriver;
 import org.flexiblepower.time.TimeService;
 import org.flexiblepower.ui.Widget;
@@ -80,7 +79,7 @@ public class WashingMachineDriverImpl
 		// Register us as an ObservationProvider
 		String resourceId = config.resourceId();
 		observationProviderRegistration = new ObservationProviderRegistrationHelper(
-				this).observationType(UncontrolledState.class)
+				this).observationType(WashingMachineState.class)
 				.observationOf(resourceId).register();
 		widget = new WashingMachineWidget(this);
 		widgetRegistration = bundleContext.registerService(Widget.class, widget, null);
@@ -129,7 +128,8 @@ public class WashingMachineDriverImpl
 	public void setControlParameters(
 			WashingMachineControlParameters resourceControlParameters) {
 		// TODO Auto-generated method stub
-
+		Date programStartTime = resourceControlParameters.getProgramStartTime();
+		logger.info("Start time is set to " + programStartTime);
 	}
 
 	@Override
@@ -140,7 +140,7 @@ public class WashingMachineDriverImpl
 						currentWashingMachineState.getEarliestStartTime() +
 						" and " + currentWashingMachineState.getLatestStartTime());
 			publish(new Observation<WashingMachineState>(timeService.getTime(), currentWashingMachineState));
-		}  catch (Exception e) {
+		}  catch (RuntimeException e) {
 			// When you don't catch your exception here, your Runnable won't be
 			// scheduled again
 			logger.error("An error occured while retrieving washing machine information", e);

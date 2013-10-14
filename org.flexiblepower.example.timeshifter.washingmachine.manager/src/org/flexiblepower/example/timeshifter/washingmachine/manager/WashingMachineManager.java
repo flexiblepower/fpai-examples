@@ -30,6 +30,7 @@ import aQute.bnd.annotation.metatype.Meta;
 @Component(designateFactory = Config.class, provide = ResourceManager.class)
 public class WashingMachineManager extends AbstractResourceManager<TimeShifterControlSpace, WashingMachineState, WashingMachineControlParameters> {
 	
+	@Meta.OCD(name = "Washing Machine Manager")
 	interface Config {
         @Meta.AD(deflt = "washingmachine", description = "Resource identifier")
         String resourceId();
@@ -88,10 +89,11 @@ public class WashingMachineManager extends AbstractResourceManager<TimeShifterCo
 		ResourceDriver<WashingMachineState, WashingMachineControlParameters> driver = getDriver();
 		if (allocation != null && driver != null) {
 			final Date startTime = allocation.getStartTime();
+			logger.info("Received an allocation with start time: " + startTime);
 			driver.setControlParameters(new WashingMachineControlParameters() {
 				
 				@Override
-				public Date getProgramStartTime(Date startTime) {
+				public Date getProgramStartTime() {
 					return startTime;
 				}
 			});

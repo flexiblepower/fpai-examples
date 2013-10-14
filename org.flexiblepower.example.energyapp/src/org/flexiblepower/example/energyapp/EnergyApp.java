@@ -20,9 +20,7 @@ public class EnergyApp implements ControllerManager {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void registerResource(ControllableResource<?> resource) {
-		System.out.println("Received Control Space");
 		if (TimeShifterControlSpace.class.isAssignableFrom(resource.getControlSpaceType())) {
-			System.out.println("Received Timeshifter control space");
 			TimeshifterController timeshifterController = new TimeshifterController();
 			timeshifterController.bind((ControllableResource<TimeShifterControlSpace>) resource);
 		}

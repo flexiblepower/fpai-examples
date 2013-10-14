@@ -10,17 +10,6 @@
 	right: 1em;
 }
 
-#weather {
-	position: absolute;
-	bottom: 0;
-	left: 1em;
-}
-
-#button {
-	display: none;
-	margin-top: 2em;
-}
-
 p {
 	height: 1.2em;
 	display: none;

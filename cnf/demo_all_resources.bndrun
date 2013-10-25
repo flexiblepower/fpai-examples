@@ -17,7 +17,8 @@
 	osgi.identity;filter:='(osgi.identity=org.flexiblepower.example.uncontrolled.driver)',\
 	osgi.identity;filter:='(osgi.identity=org.flexiblepower.example.timeshifter.washingmachine.driver.impl)',\
 	osgi.identity;filter:='(osgi.identity=org.flexiblepower.example.timeshifter.washingmachine.manager)',\
-	osgi.identity;filter:='(osgi.identity=org.flexiblepower.example.energyapp)'
+	osgi.identity;filter:='(osgi.identity=org.flexiblepower.example.energyapp)',\
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.metatype)'
 -runbundles: biz.aQute.bnd.annotation;version='[1.52.3,1.52.4)',\
 	ch.qos.logback.classic;version='[1.0.13,1.0.14)',\
 	ch.qos.logback.core;version='[1.0.13,1.0.14)',\

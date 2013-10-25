@@ -25,7 +25,7 @@ public class TimeshifterController implements Controller<TimeShifterControlSpace
 			TimeShifterControlSpace controlSpace) {
 		logger.info("Received control space with timestamp" + controlSpace.getValidFrom());
 		
-		long timeInTheMiddle = (controlSpace.getValidFrom().getTime() + controlSpace.getValidThru().getTime())/2;
+		long timeInTheMiddle = (controlSpace.getStartAfter().getTime() + controlSpace.getStartBefore().getTime())/2;
 		Allocation allocation = new Allocation(controlSpace, new Date(timeInTheMiddle), controlSpace.getEnergyProfile());
 		controllableResource.handleAllocation(allocation);
 	}

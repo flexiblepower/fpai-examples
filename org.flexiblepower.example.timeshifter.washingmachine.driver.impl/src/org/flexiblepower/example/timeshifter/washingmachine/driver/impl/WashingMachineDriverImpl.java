@@ -54,11 +54,12 @@ public class WashingMachineDriverImpl
 	private ServiceRegistration<?> observationProviderRegistration;
 	/** Reference to the registration as widget */
 	private ServiceRegistration<Widget> widgetRegistration;
+	/** Reference to the widget itself */
+	private WashingMachineWidget widget;
 	/** Reference to the {@link TimeService} */
 	private TimeService timeService;
 	/** Configuration of this object */
 	private Config config;
-	private WashingMachineWidget widget;
 	private WashingMachineState currentWashingMachineState;
 
 	/**

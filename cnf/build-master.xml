@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="fpai-example" default="build">
-	<property name="version" value="development" />
+	<property name="version" value="13.10" />
 
 	<property name="releasedir" value="/var/www/html/releases/fpai-examples" />
 

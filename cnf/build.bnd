@@ -16,6 +16,6 @@ qualifier: SNAPSHOT-${tstamp}
 
 Bundle-Category: FlexiblePower Application Infrastructure
 Bundle-Vendor: TNO
-Include-Resource: res, ../cnf/LICENSE.txt
+Include-Resource: res, ../cnf.shared/LICENSE.txt
 Bundle-Copyright: Copyright Flexiblepower Alliance Network (FAN) 2013
 Bundle-License: Apache License, Version 2.0

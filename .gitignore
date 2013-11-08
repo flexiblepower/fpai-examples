@@ -5,3 +5,6 @@ cnf/cache
 cnf/release
 bin
 generated
+cobertura.ser
+coverage.xml
+instrumented/

@@ -1,0 +1,9 @@
+-buildpath:  \
+	${default-buildpath},\
+	flexiblepower.api.efi
+
+Bundle-Version: 1.0.0.${qualifier}
+
+Service-Component: org.flexiblepower.dummy.energyapp.*
+Export-Package:  \
+	org.flexiblepower.dummy.energyapp

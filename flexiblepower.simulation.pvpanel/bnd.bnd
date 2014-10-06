@@ -1,0 +1,8 @@
+-buildpath:  \
+	${default-buildpath},\
+	javax.servlet;version='latest',\
+	org.apache.felix.scr
+
+Bundle-Version: 2.0.0.${qualifier}
+Export-Package: org.flexiblepower.simulation.pvpanel
+Service-Component: org.flexiblepower.simulation.pvpanel.*

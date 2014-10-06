@@ -1,6 +1,0 @@
--buildpath: ${default-buildpath},\
-	org.flexiblepower.example.timeshifter.washingmachine.driver.api;version=latest
-
-Bundle-Version: 1.0.0
-Private-Package: org.flexiblepower.example.timeshifter.washingmachine.driver.impl
-Service-Component: *

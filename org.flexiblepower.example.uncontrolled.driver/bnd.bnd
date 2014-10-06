@@ -1,5 +1,0 @@
--buildpath: ${default-buildpath}
-
-Bundle-Version: 1.0.0.${qualifier}
-Export-Package: org.flexiblepower.example.uncontrolled.driver
-Service-Component: *

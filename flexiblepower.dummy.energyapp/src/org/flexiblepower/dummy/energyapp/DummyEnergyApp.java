@@ -22,12 +22,9 @@ import org.flexiblepower.efi.buffer.BufferSystemDescription;
 import org.flexiblepower.efi.buffer.RunningModeBehaviour;
 import org.flexiblepower.efi.util.FillLevelFunction;
 import org.flexiblepower.efi.util.RunningMode;
-import org.flexiblepower.messaging.Cardinality;
 import org.flexiblepower.messaging.Connection;
 import org.flexiblepower.messaging.Endpoint;
 import org.flexiblepower.messaging.MessageHandler;
-import org.flexiblepower.messaging.Port;
-import org.flexiblepower.rai.AllocationRevoke;
 import org.flexiblepower.rai.AllocationStatusUpdate;
 import org.flexiblepower.rai.ControlSpaceRevoke;
 import org.flexiblepower.ral.drivers.battery.BatteryMode;
@@ -44,13 +41,6 @@ import aQute.bnd.annotation.metatype.Configurable;
 import aQute.bnd.annotation.metatype.Meta;
 
 @Component(designateFactory = Config.class, provide = Endpoint.class, immediate = true)
-@Port(name = "Buffer",
-      sends = { BufferAllocation.class, AllocationRevoke.class },
-      accepts = { BufferRegistration.class,
-                 BufferStateUpdate.class,
-                 AllocationStatusUpdate.class,
-                 ControlSpaceRevoke.class },
-      cardinality = Cardinality.SINGLE)
 public class DummyEnergyApp implements EfiControllerManager {
     private static final Logger log = LoggerFactory.getLogger(DummyEnergyApp.class);
     private volatile Connection connection;

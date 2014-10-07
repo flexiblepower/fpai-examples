@@ -12,6 +12,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import javax.measure.quantity.Energy;
 
 import org.flexiblepower.dummy.energyapp.DummyEnergyApp.Config;
+import org.flexiblepower.efi.EfiControllerManager;
 import org.flexiblepower.efi.buffer.ActuatorAllocation;
 import org.flexiblepower.efi.buffer.ActuatorBehaviour;
 import org.flexiblepower.efi.buffer.BufferAllocation;
@@ -29,7 +30,6 @@ import org.flexiblepower.messaging.Port;
 import org.flexiblepower.rai.AllocationRevoke;
 import org.flexiblepower.rai.AllocationStatusUpdate;
 import org.flexiblepower.rai.ControlSpaceRevoke;
-import org.flexiblepower.ral.ControllerManager;
 import org.flexiblepower.ral.drivers.battery.BatteryMode;
 import org.flexiblepower.time.TimeService;
 import org.osgi.framework.BundleContext;
@@ -51,7 +51,7 @@ import aQute.bnd.annotation.metatype.Meta;
                  AllocationStatusUpdate.class,
                  ControlSpaceRevoke.class },
       cardinality = Cardinality.SINGLE)
-public class DummyEnergyApp implements ControllerManager {
+public class DummyEnergyApp implements EfiControllerManager {
     private static final Logger log = LoggerFactory.getLogger(DummyEnergyApp.class);
     private volatile Connection connection;
     private Config configuration;

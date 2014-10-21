@@ -5,7 +5,6 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import org.flexiblepower.dummy.energyapp.DummyEnergyApp.Config;
 import org.flexiblepower.efi.EfiControllerManager;
-import org.flexiblepower.efi.buffer.BufferSystemDescription;
 import org.flexiblepower.messaging.Connection;
 import org.flexiblepower.messaging.Endpoint;
 import org.flexiblepower.messaging.MessageHandler;
@@ -38,8 +37,6 @@ public class DummyEnergyApp implements EfiControllerManager {
     public Connection getConnection() {
         return connection;
     }
-
-    private final BufferSystemDescription latestBufferSystemDescriptionMessage = null;
 
     @Override
     public MessageHandler onConnect(Connection connection) {

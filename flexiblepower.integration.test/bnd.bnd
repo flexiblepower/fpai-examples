@@ -1,18 +1,17 @@
 -buildpath:  \
 	${default-buildpath},\
-	flexiblepower.api.ext,\
-	junit.osgi,\
-	org.apache.felix.scr,\
 	flexiblepower.api.efi,\
-	flexiblepower.simulation.pvpanel;version=project,\
-	flexiblepower.simulation.battery;version=project,\
-	flexiblepower.simulation.dishwasher;version=project,\
-	flexiblepower.uncontrolled.manager;version=latest,\
 	flexiblepower.battery.manager;version=latest,\
-	flexiblepower.miele.dishwasher.manager;version=project
-
-Bundle-Version: 1.0.0.${qualifier}
+	flexiblepower.simulation.battery;version=latest,\
+	junit.osgi
 
 Service-Component: *
+Bundle-Version: 1.0.0
+Import-Package: \
+	org.flexiblepower*,\
+	*;resolution:=optional
+Private-Package:  \
+	org.flexiblepower.simulation.battery.test,\
+	org.flexiblepower.simulation.test
+	
 Test-Cases: ${classes;CONCRETE;EXTENDS;junit.framework.TestCase},${classes;ANNOTATION;org.junit.Test}
-Private-Package:  org.flexiblepower.simulation.*test

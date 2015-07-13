@@ -1,3 +1,0 @@
-[submodule "cnf.shared"]
-	path = cnf.shared
-	url = https://github.com/flexiblepower/fpai-shared-config.git

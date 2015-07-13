@@ -1,4 +1,6 @@
--buildpath: ${default-buildpath}
+-buildpath:  \
+	${fpai-buildpath},\
+	flexiblepower.ui
 
 
 Service-Component: *

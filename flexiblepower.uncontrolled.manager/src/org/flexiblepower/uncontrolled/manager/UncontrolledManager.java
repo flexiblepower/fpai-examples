@@ -11,20 +11,21 @@ import javax.measure.quantity.Duration;
 import javax.measure.quantity.Power;
 import javax.measure.unit.SI;
 
+import org.flexiblepower.context.FlexiblePowerContext;
 import org.flexiblepower.efi.UncontrolledResourceManager;
 import org.flexiblepower.efi.uncontrolled.UncontrolledMeasurement;
 import org.flexiblepower.efi.uncontrolled.UncontrolledRegistration;
 import org.flexiblepower.efi.uncontrolled.UncontrolledUpdate;
 import org.flexiblepower.messaging.Endpoint;
 import org.flexiblepower.messaging.Port;
-import org.flexiblepower.rai.ResourceMessage;
-import org.flexiblepower.rai.values.CommodityMeasurables;
-import org.flexiblepower.rai.values.CommoditySet;
-import org.flexiblepower.rai.values.ConstraintListMap;
 import org.flexiblepower.ral.ResourceControlParameters;
 import org.flexiblepower.ral.drivers.uncontrolled.PowerState;
 import org.flexiblepower.ral.ext.AbstractResourceManager;
-import org.flexiblepower.time.TimeService;
+import org.flexiblepower.ral.messages.ControlSpaceRevoke;
+import org.flexiblepower.ral.messages.ResourceMessage;
+import org.flexiblepower.ral.values.CommodityMeasurables;
+import org.flexiblepower.ral.values.CommoditySet;
+import org.flexiblepower.ral.values.ConstraintListMap;
 import org.flexiblepower.ui.Widget;
 import org.flexiblepower.uncontrolled.manager.UncontrolledManager.Config;
 import org.osgi.framework.BundleContext;
@@ -66,7 +67,7 @@ public class UncontrolledManager extends
         log.debug("Initialized!");
     }
 
-    private TimeService timeService;
+    private FlexiblePowerContext context;
     private UncontrolledManagerWidget widget;
     private ServiceRegistration<Widget> widgetRegistration;
     private Measurable<Power> lastDemand;
@@ -75,8 +76,8 @@ public class UncontrolledManager extends
     private Measure<Integer, Duration> allocationDelay;
 
     @Reference
-    public void setTimeService(TimeService timeService) {
-        this.timeService = timeService;
+    public void setFlexiblePowerContext(FlexiblePowerContext context) {
+        this.context = context;
     }
 
     @Activate
@@ -107,7 +108,7 @@ public class UncontrolledManager extends
     @Override
     protected List<? extends ResourceMessage> startRegistration(PowerState state) {
         currentState = state;
-        changedState = timeService.getTime();
+        changedState = context.currentTime();
         allocationDelay = Measure.valueOf(5, SI.SECOND);
         ConstraintListMap constraintList = ConstraintListMap.electricity(null); // this version of the uncontrolled
                                                                                 // manager does not support
@@ -125,7 +126,7 @@ public class UncontrolledManager extends
         CommodityMeasurables measurables = CommodityMeasurables.electricity(currentUsage);
         UncontrolledUpdate update = new UncontrolledMeasurement(getResourceId(),
                                                                 changedState,
-                                                                timeService.getTime(),
+                                                                context.currentTime(),
                                                                 measurables);
         return update;
     }
@@ -139,6 +140,11 @@ public class UncontrolledManager extends
     @Override
     protected ResourceControlParameters receivedAllocation(ResourceMessage message) {
         throw new AssertionError();
+    }
+
+    @Override
+    protected ControlSpaceRevoke createRevokeMessage() {
+        return null;
     }
 
 }

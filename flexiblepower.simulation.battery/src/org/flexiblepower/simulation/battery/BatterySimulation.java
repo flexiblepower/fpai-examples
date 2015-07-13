@@ -5,9 +5,7 @@ import static javax.measure.unit.SI.WATT;
 
 import java.util.Date;
 import java.util.Map;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
 import javax.measure.Measurable;
 import javax.measure.Measure;
@@ -16,6 +14,7 @@ import javax.measure.quantity.Energy;
 import javax.measure.quantity.Power;
 import javax.measure.unit.SI;
 
+import org.flexiblepower.context.FlexiblePowerContext;
 import org.flexiblepower.messaging.Endpoint;
 import org.flexiblepower.ral.drivers.battery.BatteryControlParameters;
 import org.flexiblepower.ral.drivers.battery.BatteryDriver;
@@ -23,7 +22,6 @@ import org.flexiblepower.ral.drivers.battery.BatteryMode;
 import org.flexiblepower.ral.drivers.battery.BatteryState;
 import org.flexiblepower.ral.ext.AbstractResourceDriver;
 import org.flexiblepower.simulation.battery.BatterySimulation.Config;
-import org.flexiblepower.time.TimeService;
 import org.flexiblepower.ui.Widget;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
@@ -74,6 +72,7 @@ public class BatterySimulation extends AbstractResourceDriver<BatteryState, Batt
         long selfDischargePower();
     }
 
+    // TODO This is BAD example, states should always be an immatable object
     class State implements BatteryState {
         private final double stateOfCharge; // State of Charge is always within [0, 1] range.
         private final BatteryMode mode;
@@ -167,8 +166,6 @@ public class BatterySimulation extends AbstractResourceDriver<BatteryState, Batt
     private Config configuration;
     private double stateOfCharge;
 
-    private ScheduledExecutorService scheduler;
-
     private ScheduledFuture<?> scheduledFuture;
 
     private ServiceRegistration<Widget> widgetRegistration;
@@ -176,7 +173,7 @@ public class BatterySimulation extends AbstractResourceDriver<BatteryState, Batt
     private BatteryWidget widget;
 
     @Activate
-    public void activate(BundleContext context, Map<String, Object> properties) throws Exception {
+    public void activate(BundleContext bundleContext, Map<String, Object> properties) throws Exception {
         try {
             configuration = Configurable.createConfigurable(Config.class, properties);
 
@@ -191,10 +188,12 @@ public class BatterySimulation extends AbstractResourceDriver<BatteryState, Batt
 
             publishState(new State(stateOfCharge, mode));
 
-            scheduledFuture = scheduler.scheduleAtFixedRate(this, 0, configuration.updateInterval(), TimeUnit.SECONDS);
+            scheduledFuture = context.scheduleAtFixedRate(this,
+                                                          Measure.zero(SI.SECOND),
+                                                          Measure.valueOf(configuration.updateInterval(), SI.SECOND));
 
             widget = new BatteryWidget(this);
-            widgetRegistration = context.registerService(Widget.class, widget, null);
+            widgetRegistration = bundleContext.registerService(Widget.class, widget, null);
         } catch (Exception ex) {
             logger.error("Error during initialization of the battery simulation: " + ex.getMessage(), ex);
             deactivate();
@@ -234,22 +233,17 @@ public class BatterySimulation extends AbstractResourceDriver<BatteryState, Batt
         }
     }
 
-    private TimeService timeService;
+    private FlexiblePowerContext context;
 
     @Reference
-    public void setTimeService(TimeService timeService) {
-        this.timeService = timeService;
-        lastUpdatedTime = timeService.getTime();
-    }
-
-    @Reference
-    public void setScheduledExecutorService(ScheduledExecutorService scheduler) {
-        this.scheduler = scheduler;
+    public void setFlexiblePowerContext(FlexiblePowerContext context) {
+        this.context = context;
+        lastUpdatedTime = context.currentTime();
     }
 
     @Override
     public synchronized void run() {
-        Date currentTime = timeService.getTime();
+        Date currentTime = context.currentTime();
         double durationSinceLastUpdate = (currentTime.getTime() - lastUpdatedTime.getTime()) / 1000.0; // in seconds
         lastUpdatedTime = currentTime;
         double amountOfChargeInWatt = 0;

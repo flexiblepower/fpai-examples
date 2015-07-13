@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.measure.quantity.Energy;
 
+import org.flexiblepower.context.FlexiblePowerContext;
 import org.flexiblepower.efi.buffer.ActuatorAllocation;
 import org.flexiblepower.efi.buffer.ActuatorBehaviour;
 import org.flexiblepower.efi.buffer.BufferAllocation;
@@ -18,22 +19,21 @@ import org.flexiblepower.efi.util.FillLevelFunction;
 import org.flexiblepower.efi.util.RunningMode;
 import org.flexiblepower.messaging.Connection;
 import org.flexiblepower.messaging.MessageHandler;
-import org.flexiblepower.rai.AllocationStatusUpdate;
-import org.flexiblepower.rai.ControlSpaceRevoke;
 import org.flexiblepower.ral.drivers.battery.BatteryMode;
-import org.flexiblepower.time.TimeService;
+import org.flexiblepower.ral.messages.AllocationStatusUpdate;
+import org.flexiblepower.ral.messages.ControlSpaceRevoke;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class BufferMessageHandler implements MessageHandler {
     private static final Logger log = LoggerFactory.getLogger(BufferMessageHandler.class);
-    private final TimeService timeService;
-    Connection connection;
+    private Connection connection;
     private BufferSystemDescription latestBufferSystemDescriptionMessage = null;
+    private final FlexiblePowerContext context;
 
-    public BufferMessageHandler(Connection connection, TimeService timeService) {
+    public BufferMessageHandler(Connection connection, FlexiblePowerContext context) {
         log.debug("Constructing new BufferMessageHandler.");
-        this.timeService = timeService;
+        this.context = context;
         this.connection = connection;
     }
 

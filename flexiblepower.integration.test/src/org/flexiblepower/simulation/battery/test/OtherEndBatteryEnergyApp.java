@@ -26,11 +26,11 @@ import org.flexiblepower.messaging.Connection;
 import org.flexiblepower.messaging.Endpoint;
 import org.flexiblepower.messaging.MessageHandler;
 import org.flexiblepower.messaging.Port;
-import org.flexiblepower.rai.AllocationRevoke;
-import org.flexiblepower.rai.AllocationStatusUpdate;
-import org.flexiblepower.rai.ControlSpaceRevoke;
-import org.flexiblepower.rai.ResourceMessage;
 import org.flexiblepower.ral.drivers.battery.BatteryMode;
+import org.flexiblepower.ral.messages.AllocationRevoke;
+import org.flexiblepower.ral.messages.AllocationStatusUpdate;
+import org.flexiblepower.ral.messages.ControlSpaceRevoke;
+import org.flexiblepower.ral.messages.ResourceMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

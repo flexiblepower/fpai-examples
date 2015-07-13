@@ -12,13 +12,13 @@ import javax.measure.Measure;
 import javax.measure.quantity.Power;
 import javax.measure.unit.SI;
 
+import org.flexiblepower.context.FlexiblePowerContext;
 import org.flexiblepower.messaging.Endpoint;
 import org.flexiblepower.ral.ResourceControlParameters;
 import org.flexiblepower.ral.drivers.uncontrolled.PowerState;
 import org.flexiblepower.ral.drivers.uncontrolled.UncontrollableDriver;
 import org.flexiblepower.ral.ext.AbstractResourceDriver;
 import org.flexiblepower.simulation.pvpanel.PVSimulation.Config;
-import org.flexiblepower.time.TimeService;
 import org.flexiblepower.ui.Widget;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
@@ -127,11 +127,11 @@ public class PVSimulation extends AbstractResourceDriver<PowerState, ResourceCon
         this.schedulerService = schedulerService;
     }
 
-    private TimeService timeService;
+    private FlexiblePowerContext context;
 
     @Reference
-    public void setTimeService(TimeService timeService) {
-        this.timeService = timeService;
+    public void setFlexiblePowerContext(FlexiblePowerContext context) {
+        this.context = context;
     }
 
     @Override
@@ -170,6 +170,6 @@ public class PVSimulation extends AbstractResourceDriver<PowerState, ResourceCon
     }
 
     protected PowerStateImpl getCurrentState() {
-        return new PowerStateImpl(Measure.valueOf(demand, SI.WATT), timeService.getTime());
+        return new PowerStateImpl(Measure.valueOf(demand, SI.WATT), context.currentTime());
     }
 }

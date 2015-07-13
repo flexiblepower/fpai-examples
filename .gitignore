@@ -1,10 +1,13 @@
 # Generate Java / Eclipse generated stuff
 .metadata
+.recommenders/
 *.swp
 cnf/cache
 cnf/release
-bin
+*/bin/
+*/bin_test/
 generated
 cobertura.ser
 coverage.xml
 instrumented/
+

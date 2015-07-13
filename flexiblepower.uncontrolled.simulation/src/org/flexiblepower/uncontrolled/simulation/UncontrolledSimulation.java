@@ -12,13 +12,13 @@ import javax.measure.Measure;
 import javax.measure.quantity.Power;
 import javax.measure.unit.SI;
 
+import org.flexiblepower.context.FlexiblePowerContext;
 import org.flexiblepower.observation.ext.ObservationProviderRegistrationHelper;
 import org.flexiblepower.ral.ResourceControlParameters;
 import org.flexiblepower.ral.ResourceDriver;
 import org.flexiblepower.ral.drivers.uncontrolled.PowerState;
 import org.flexiblepower.ral.drivers.uncontrolled.UncontrollableDriver;
 import org.flexiblepower.ral.ext.AbstractResourceDriver;
-import org.flexiblepower.time.TimeService;
 import org.flexiblepower.ui.Widget;
 import org.flexiblepower.uncontrolled.simulation.UncontrolledSimulation.Config;
 import org.osgi.framework.BundleContext;
@@ -126,18 +126,18 @@ public class UncontrolledSimulation extends AbstractResourceDriver<PowerState, R
         this.schedulerService = schedulerService;
     }
 
-    private TimeService timeService;
+    private FlexiblePowerContext context;
 
     @Reference
-    public void setTimeService(TimeService timeService) {
-        this.timeService = timeService;
+    public void setFlexiblePowerContext(FlexiblePowerContext context) {
+        this.context = context;
     }
 
     @Override
     public synchronized void run() {
         try {
             demand = (int) -weather.getProduction(0, cloudy, sunny);
-            final Date currentDate = timeService.getTime();
+            final Date currentDate = context.currentTime();
 
             if (demand < 0.1 && demand > -0.1 && config.powerWhenStandBy() > 0) {
                 demand = config.powerWhenStandBy();
@@ -170,7 +170,7 @@ public class UncontrolledSimulation extends AbstractResourceDriver<PowerState, R
 
     protected PowerStateImpl getCurrentState() {
         final Measurable<Power> demand = Measure.valueOf(this.demand, SI.WATT);
-        final Date currentTime = timeService.getTime();
+        final Date currentTime = context.currentTime();
 
         return new PowerStateImpl(demand, currentTime);
     }

@@ -1,9 +1,10 @@
 -buildpath:  \
-	${default-buildpath},\
-	flexiblepower.api.efi,\
+	${fpai-buildpath},\
+	${test-buildpath},\
+	flexiblepower.runtime.simulation,\
 	flexiblepower.battery.manager;version=latest,\
-	flexiblepower.simulation.battery;version=latest,\
-	junit.osgi
+	flexiblepower.simulation.battery;version=latest
+
 
 Service-Component: *
 Bundle-Version: 1.0.0

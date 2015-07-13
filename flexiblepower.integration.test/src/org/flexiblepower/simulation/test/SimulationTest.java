@@ -5,7 +5,7 @@ import java.util.Date;
 import junit.framework.TestCase;
 
 import org.flexiblepower.messaging.ConnectionManager;
-import org.flexiblepower.simulation.Simulation;
+import org.flexiblepower.simulation.api.Simulation;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.service.cm.ConfigurationAdmin;

@@ -15,13 +15,13 @@ import javax.measure.Measure;
 import javax.measure.quantity.Duration;
 import javax.measure.unit.SI;
 
+import org.flexiblepower.context.FlexiblePowerContext;
 import org.flexiblepower.messaging.Endpoint;
-import org.flexiblepower.rai.values.CommodityProfile;
 import org.flexiblepower.ral.drivers.dishwasher.DishwasherControlParameters;
 import org.flexiblepower.ral.drivers.dishwasher.DishwasherState;
 import org.flexiblepower.ral.ext.AbstractResourceDriver;
+import org.flexiblepower.ral.values.CommodityProfile;
 import org.flexiblepower.simulation.dishwasher.DishwasherSimulation.Config;
-import org.flexiblepower.time.TimeService;
 import org.flexiblepower.time.TimeUtil;
 import org.flexiblepower.ui.Widget;
 import org.osgi.framework.BundleContext;
@@ -111,11 +111,11 @@ public class DishwasherSimulation extends AbstractResourceDriver<DishwasherState
         this.scheduler = scheduler;
     }
 
-    private TimeService timeService;
+    private FlexiblePowerContext context;
 
     @Reference
-    public void setTimeService(TimeService timeService) {
-        this.timeService = timeService;
+    public void setFlexiblePowerContext(FlexiblePowerContext context) {
+        this.context = context;
     }
 
     private Config configuration;
@@ -125,7 +125,7 @@ public class DishwasherSimulation extends AbstractResourceDriver<DishwasherState
     private ServiceRegistration<Widget> widgetRegistration;
 
     @Activate
-    public void activate(BundleContext context, Map<String, Object> properties) {
+    public void activate(BundleContext bundleContext, Map<String, Object> properties) {
         log.info("Activated");
         configuration = Configurable.createConfigurable(Config.class, properties);
 
@@ -140,7 +140,7 @@ public class DishwasherSimulation extends AbstractResourceDriver<DishwasherState
             SimpleDateFormat parserSDF = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
             final Date latestStartTime = parserSDF.parse(latestStartTimeString);
-            Measurable<Duration> diff = TimeUtil.difference(timeService.getTime(), latestStartTime);
+            Measurable<Duration> diff = TimeUtil.difference(context.currentTime(), latestStartTime);
 
             log.debug("time to start dishwasher:" + Math.max(0, diff.longValue(SI.SECOND)));
 
@@ -170,13 +170,13 @@ public class DishwasherSimulation extends AbstractResourceDriver<DishwasherState
         } catch (ParseException e) {
             log.debug("ParsingError during parsing of LatestStartTime: {}", latestStartTimeString);
         }
-        widget = new DishwasherWidget(this, timeService);
-        widgetRegistration = context.registerService(Widget.class, widget, null);
+        widget = new DishwasherWidget(this, context);
+        widgetRegistration = bundleContext.registerService(Widget.class, widget, null);
     }
 
     // separate modify method needed, because the activate overwrites the startTime.
     @Modified
-    public void Modify(BundleContext context, Map<String, Object> properties) {
+    public void Modify(BundleContext bundleContext, Map<String, Object> properties) {
         log.info("Modifying");
         configuration = Configurable.createConfigurable(Config.class, properties);
 
@@ -191,7 +191,7 @@ public class DishwasherSimulation extends AbstractResourceDriver<DishwasherState
             SimpleDateFormat parserSDF = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
             final Date latestStartTime = parserSDF.parse(latestStartTimeString);
-            Measurable<Duration> diff = TimeUtil.difference(timeService.getTime(), latestStartTime);
+            Measurable<Duration> diff = TimeUtil.difference(context.currentTime(), latestStartTime);
 
             // log.debug("time to start dishwasher:" + diff.doubleValue(SI.SECOND));
 
@@ -221,8 +221,8 @@ public class DishwasherSimulation extends AbstractResourceDriver<DishwasherState
         } catch (ParseException e) {
             log.debug("ParsingError during parsing of LatestStartTime: {}", latestStartTimeString);
         }
-        widget = new DishwasherWidget(this, timeService);
-        widgetRegistration = context.registerService(Widget.class, widget, null);
+        widget = new DishwasherWidget(this, context);
+        widgetRegistration = bundleContext.registerService(Widget.class, widget, null);
     }
 
     @Deactivate
@@ -242,7 +242,7 @@ public class DishwasherSimulation extends AbstractResourceDriver<DishwasherState
     @Override
     public void handleControlParameters(final DishwasherControlParameters resourceControlParameters) {
         if (resourceControlParameters.getProgram().equals(currentState.getProgram())) {
-            Measurable<Duration> diff = TimeUtil.difference(timeService.getTime(),
+            Measurable<Duration> diff = TimeUtil.difference(context.currentTime(),
                                                             resourceControlParameters.getStartTime());
 
             if (runFuture != null && !runFuture.isDone()) {

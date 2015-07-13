@@ -4,15 +4,11 @@
             <pattern>%d{HH:mm:ss.SSS} %-5level %-36.36logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
-    <logger name="org.flexiblepower.runtime.ui" level="ERROR" />
-    <logger name="org.flexiblepower" level="DEBUG" />
-    <logger name="org.flexiblepower.miele.dishwasher.manager" level="DEBUG" />
-    <logger name="org.eclipse.jetty" level="ERROR" />
     
-    
-    <root level="DEBUG">
+    <!--<logger name="org.flexiblepower.runtime.context.RuntimeContext" level="TRACE"/>-->
+    <logger name="org.eclipse" level="ERROR"/>
+    <logger name="org.flexiblepower.runtime.ui" level="ERROR"/>
+    <root level="INFO">
         <appender-ref ref="STDOUT" />
     </root>
-    
 </configuration>
-

@@ -1,14 +1,13 @@
 package org.flexiblepower.dummy.energyapp;
 
 import java.util.Map;
-import java.util.concurrent.ScheduledExecutorService;
 
+import org.flexiblepower.context.FlexiblePowerContext;
 import org.flexiblepower.dummy.energyapp.DummyEnergyApp.Config;
 import org.flexiblepower.efi.EfiControllerManager;
 import org.flexiblepower.messaging.Connection;
 import org.flexiblepower.messaging.Endpoint;
 import org.flexiblepower.messaging.MessageHandler;
-import org.flexiblepower.time.TimeService;
 import org.osgi.framework.BundleContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,8 +24,7 @@ public class DummyEnergyApp implements EfiControllerManager {
     private static final Logger log = LoggerFactory.getLogger(DummyEnergyApp.class);
     private volatile Connection connection;
     private Config configuration;
-    private TimeService timeService;
-    private ScheduledExecutorService scheduler;
+    private FlexiblePowerContext context;
 
     @Meta.OCD(name = "Dummy Energy App")
     interface Config {
@@ -42,7 +40,7 @@ public class DummyEnergyApp implements EfiControllerManager {
     public MessageHandler onConnect(Connection connection) {
         this.connection = connection;
         if (connection.getPort().name().equals("buffer")) {
-            return new BufferMessageHandler(connection, timeService);
+            return new BufferMessageHandler(connection, context);
         } else {
             return null;
         }
@@ -59,12 +57,8 @@ public class DummyEnergyApp implements EfiControllerManager {
     }
 
     @Reference
-    public void setTimeService(TimeService timeService) {
-        this.timeService = timeService;
+    public void setFlexiblePowerContext(FlexiblePowerContext context) {
+        this.context = context;
     }
 
-    @Reference
-    public void setScheduledExecutorService(ScheduledExecutorService scheduler) {
-        this.scheduler = scheduler;
-    }
 }

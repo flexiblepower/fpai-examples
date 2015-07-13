@@ -1,4 +1,5 @@
--buildpath: ${default-buildpath}
+-buildpath:  \
+	${fpai-buildpath}
 
 Bundle-Version: 1.0.0.${qualifier}
 Export-Package: org.flexiblepower.example.skeleton
